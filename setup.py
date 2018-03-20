@@ -19,10 +19,24 @@ setup(name='pip_upgrade_outdated',
       url='http://github.com/defjaf/pip_upgrade_outdated',
       author='Andrew H. Jaffe',
       author_email='a.h.jaffe@gmail.com',
-      ## install_requires='http',  ## doesn't work since it's not versioned?
-      license='MIT' ### sewe https://choosealicense.com/licenses/mit/#
+      license='MIT', ### sewe https://choosealicense.com/licenses/mit/#
       packages=['pip_upgrade_outdated'],
-      ## zip_safe=False,   ### probably true?
+      classifiers=[
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Developers',
+        'Intended Audience :: System Administrators',
+
+        'Topic :: Software Development :: Build Tools',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: System :: Archiving :: Packaging',
+
+        'License :: OSI Approved :: MIT License',
+
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 3'
+      ],
+      keywords='pip',
+            ## zip_safe=False,   ### probably true?
       entry_points = {
         'console_scripts': ['pip_upgrade_outdated=pip_upgrade_outdated.upgrade_pip_packages:main'],
     }
