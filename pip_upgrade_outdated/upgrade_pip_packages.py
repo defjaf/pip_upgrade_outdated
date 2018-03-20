@@ -1,13 +1,20 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 This script upgrades all outdated python packages.
 """
 
+### By Andrew Jaffe <a.h.jaffe@gmail.com>
+### https://andrewjaffe.net/
+### https://twitter.com/defjaf
+### 20 March 2018
 
 ## based on https://gist.github.com/serafeimgr/b4ca5d0de63950cc5349d4802d22f3f0
 ## __author__ = "serafeimgr"
-## modified by AHJ to allow different pip executables (pip2, pip3, etc)
+## modified by AHJ to allow different pip executables (pip2, pip3, etc), more command-line arguments
+
 ## do we really want to do this with multiprocessing, or just a single giant call to pip?
+##   now can choose with a command-line argument
+
 ## does the parsing really work given the new-style headers in the formatting?
 ##  -- no: needed to add --format legacy; could also use freeze (split with "==")
 ##  -- changed to use --format json to let someone else do the parsing for me...
@@ -27,6 +34,7 @@ def run_command(command):
     """
     Executes a command.
     @param: command
+    @returns: stdout, stderr
     """
     stdout, stderror = Popen(command,
                              stdout=PIPE,
@@ -39,7 +47,7 @@ def upgrade_package(package, pip_cmd="pip", verbose=False):
     """
     Upgrade a package.
 
-    @param: package
+    @param: package or space-joined list of packages
     """
     upgrade_command = " ".join((pip_cmd,"install --upgrade {}".format(package)))
 
@@ -57,7 +65,7 @@ def collect_packages(pip_cmd="pip", verbose=False):
     """
     Collect outdated packages.
 
-    @returns : packages
+    @returns : list of packages
     """
 
     outdated_command = " ".join((pip_cmd,"list --outdated --format json"))
@@ -75,10 +83,10 @@ def collect_packages(pip_cmd="pip", verbose=False):
     
 
 def main():
-    """Upgrade outdated python packages."""
+    """ Upgrade outdated python packages. """
     
     ## AHJ: all argparse stuff new
-    descr = 'upgrade outdated python packages with pip.'
+    descr = 'Upgrade outdated python packages with pip.'
     
     parser = argparse.ArgumentParser(description=descr)
     group=parser.add_mutually_exclusive_group()
