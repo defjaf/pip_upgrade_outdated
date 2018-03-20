@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """
 This script upgrades all outdated python packages.
 """
@@ -28,7 +28,7 @@ import json
 import argparse
 import functools
 
-__version__ = "1.0b2"
+__version__ = "1.0b3"
 
 def run_command(command):
     """
@@ -74,7 +74,7 @@ def collect_packages(pip_cmd="pip", verbose=False):
     if stderr:
         print("Error:", stderr)
 
-    if verbose and stdout and stdout!='[]\n':
+    if verbose and stdout and stdout!=b'[]\n':
         print(stdout)
 
     pkgs = json.loads(stdout)
