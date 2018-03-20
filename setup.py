@@ -2,17 +2,17 @@
 
 from setuptools import setup
 import re
-from codecs import open
+from io import open
 from os import path
 
-### https://packaging.python.org/en/latest/distributing.html
-### https://github.com/pypa/sampleproject
-here = path.abspath(path.dirname(__file__))
+### shouldn't be necessary once full PEP 566 pypi metadata allowed 
+# try:
+#     import pypandoc
+#     long_description = pypandoc.convert('README.md', 'rst')
+# except ImportError:
+#     long_description = open('README.md').read()
 
-# Get the long description from the README file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
-
+long_description = open('README.md').read()
 
 ## from https://gehrcke.de/2014/02/distributing-a-python-command-line-application/
 version = re.search(
