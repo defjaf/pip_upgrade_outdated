@@ -1,4 +1,4 @@
-# pip_upgrade
+# pip_upgrade_outdated
 
 Run `pip install --upgrade` for all outdated packages (`pip list --outdated`).
 
