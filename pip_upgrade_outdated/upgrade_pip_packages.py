@@ -28,7 +28,7 @@ import json
 import argparse
 import functools
 
-__version__ = "0.91"
+__version__ = "0.92"
 
 def run_command(command):
     """

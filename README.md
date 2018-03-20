@@ -1,12 +1,5 @@
 # pip_upgrade_outdated
 
-[Andrew H. Jaffe](mailto:a.h.jaffe@gmail.com)
-
-* [web](https://andrewjaffe.net)
-* twitter [@defjaf](https://twitter.com/defjaf)
-* github [defjaf](https://github.com/defjaf)
-
-
 Run `pip install --upgrade` for all outdated packages (`pip list --outdated`).
 
 Allow specifying which version of `pip` to run, and parallel or serial execution of the upgrade step.
@@ -41,3 +34,10 @@ optional arguments:
 
 * code based on https://gist.github.com/serafeimgr/b4ca5d0de63950cc5349d4802d22f3f0
 * project structure based on https://gehrcke.de/2014/02/distributing-a-python-command-line-application/
+
+### AUTHOR
+
+* [Andrew H. Jaffe](mailto:a.h.jaffe@gmail.com)
+* [web](https://andrewjaffe.net)
+* twitter [@defjaf](https://twitter.com/defjaf)
+* github [defjaf](https://github.com/defjaf)
