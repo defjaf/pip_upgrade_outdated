@@ -19,7 +19,7 @@ setup(name='pip_upgrade_outdated',
       url='http://github.com/defjaf/pip_upgrade_outdated',
       author='Andrew H. Jaffe',
       author_email='a.h.jaffe@gmail.com',
-      license='MIT', ### sewe https://choosealicense.com/licenses/mit/#
+      license='MIT', ### see https://choosealicense.com/licenses/mit/#
       packages=['pip_upgrade_outdated'],
       classifiers=[
         'Development Status :: 4 - Beta',
