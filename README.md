@@ -1,10 +1,10 @@
 # pip_upgrade_outdated
 
-Andrew H. Jaffe <a.h.jaffe@gmail.com>
+[Andrew H. Jaffe](mailto:a.h.jaffe@gmail.com)
 
-* https://andrewjaffe.net
-* https://twitter.com/defjaf
-* https://github.com/defjaf
+* [web](https://andrewjaffe.net)
+* twitter [@defjaf](https://twitter.com/defjaf)
+* github [defjaf](https://github.com/defjaf)
 
 
 Run `pip install --upgrade` for all outdated packages (`pip list --outdated`).
