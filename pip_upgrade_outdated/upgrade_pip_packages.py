@@ -126,7 +126,3 @@ def main():
         all_packages = " ".join(packages)
         upgrade_package(all_packages, pip_cmd=pip_cmd, verbose=args.verbose)
 
-# 
-# 
-# if __name__ == '__main__':
-#     main()
