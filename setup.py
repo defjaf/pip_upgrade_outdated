@@ -3,9 +3,8 @@
 from setuptools import setup
 import re
 from io import open
-from os import path
 
-### shouldn't be necessary once full PEP 566 pypi metadata allowed 
+### shouldn't be necessary once full PEP 566 pypi metadata allowed
 # try:
 #     import pypandoc
 #     long_description = pypandoc.convert('README.md', 'rst')
