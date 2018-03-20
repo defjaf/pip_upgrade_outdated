@@ -34,10 +34,3 @@ optional arguments:
 
 * code based on https://gist.github.com/serafeimgr/b4ca5d0de63950cc5349d4802d22f3f0
 * project structure based on https://gehrcke.de/2014/02/distributing-a-python-command-line-application/
-
-### AUTHOR
-
-* [Andrew H. Jaffe](mailto:a.h.jaffe@gmail.com)
-* [web](https://andrewjaffe.net)
-* twitter [@defjaf](https://twitter.com/defjaf)
-* github [defjaf](https://github.com/defjaf)
