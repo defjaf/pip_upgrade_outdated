@@ -54,7 +54,7 @@ def upgrade_package(package, pip_cmd="pip", dry_run=False, verbose=False):
             print(package, stdout)
             
 
-def collect_packages(pip_cmd="pip", verbose=True):
+def collect_packages(pip_cmd="pip", verbose=False):
     """
     Collect outdated packages.
 
@@ -105,7 +105,7 @@ def main():
     if args.verbose:
         print("Collected: ", packages)
     if not args.serial:
-        if args.verbose: 
+        if args.verbose>1: 
             print("parallel")
         pool = Pool(cpu_count())
         pool.map(functools.partial(upgrade_package, 
