@@ -35,7 +35,7 @@ def run_command(command):
     return stdout, stderror
 
 
-def upgrade_package(package, pip_cmd="pip", dry_run=False, verbose=False):
+def upgrade_package(package, pip_cmd="pip", verbose=False):
     """
     Upgrade a package.
 
@@ -46,11 +46,11 @@ def upgrade_package(package, pip_cmd="pip", dry_run=False, verbose=False):
     if verbose and upgrade_command:
         print("Upgrade command: ", upgrade_command)
 
-    if not dry_run:
-        stdout, stderr = run_command(upgrade_command)
-        if stderr:
-            print("Error:", stderr)
-        print(stdout)
+    stdout, stderr = run_command(upgrade_command)
+    if stderr:
+        print("Error:", stderr)
+        
+    print(stdout)
             
 
 def collect_packages(pip_cmd="pip", verbose=False):
@@ -70,6 +70,7 @@ def collect_packages(pip_cmd="pip", verbose=False):
         print(stdout)
 
     pkgs = json.loads(stdout)
+    
     return [p['name'] for p in pkgs]
     
 
@@ -100,14 +101,21 @@ def main():
 
     
     packages = collect_packages(pip_cmd=pip_cmd, verbose=args.verbose)
-    if args.verbose and packages:
-        print("Collected: ", packages)
+    if args.verbose:
+        if packages:
+            print("Outdated packages: ", packages)
+        else:
+            print("No outdated packages.")
+            return
+            
+    if args.dry_run:
+        return
+        
     if not args.serial:
         if args.verbose>1: 
             print("Parallel execution")
         pool = Pool(cpu_count())
-        pool.map(functools.partial(upgrade_package, 
-                                   pip_cmd=pip_cmd, dry_run=args.dry_run, verbose=args.verbose), 
+        pool.map(functools.partial(upgrade_package, pip_cmd=pip_cmd, verbose=args.verbose), 
                  packages)
         pool.close()
         pool.join()
@@ -116,7 +124,7 @@ def main():
             print("Serial execution")
 
         all_packages = " ".join(packages)
-        upgrade_package(all_packages, pip_cmd=pip_cmd, dry_run=args.dry_run, verbose=args.verbose)
+        upgrade_package(all_packages, pip_cmd=pip_cmd, verbose=args.verbose)
 
 # 
 # 
