@@ -5,6 +5,7 @@ Run `pip install --upgrade` for all outdated packages (`pip list --outdated`).
 Allow specifying which version of `pip` to run, and parallel or serial execution of the upgrade step.
 
 ### Command line usage
+
 ```
 usage: pip_upgrade_outdated [-h] [-3 | -2 | --pip_cmd PIP_CMD] [--verbose]
                             [--dry_run] [--serial] [--version]
@@ -27,6 +28,7 @@ optional arguments:
 * does it work with environment variables?
 * need better error handling?
 * source works with python3?
+* have it run with `--format columns` when using `--dry_run` and `--verbose`?
 
 ### Sources
 
