@@ -19,6 +19,7 @@ import json
 import argparse
 import functools
 
+__version__ = "0.9"
 
 def run_command(command):
     """
@@ -113,7 +114,7 @@ def main():
         all_packages = " ".join(packages)
         upgrade_package(all_packages, pip_cmd=pip_cmd, dry_run=args.dry_run, verbose=args.verbose)
 
-
-
-if __name__ == '__main__':
-    main()
+# 
+# 
+# if __name__ == '__main__':
+#     main()
