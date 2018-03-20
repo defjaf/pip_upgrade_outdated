@@ -43,15 +43,14 @@ def upgrade_package(package, pip_cmd="pip", dry_run=False, verbose=False):
     """
     upgrade_command = " ".join((pip_cmd,"install --upgrade {}".format(package)))
 
-    if verbose:
-        print(upgrade_command)
+    if verbose and upgrade_command:
+        print("Upgrade command: ", upgrade_command)
 
     if not dry_run:
         stdout, stderr = run_command(upgrade_command)
-        if verbose>1: 
-            print(package, stdout, stderr)
-        else:
-            print(package, stdout)
+        if stderr:
+            print("Error:", stderr)
+        print(stdout)
             
 
 def collect_packages(pip_cmd="pip", verbose=False):
@@ -64,16 +63,15 @@ def collect_packages(pip_cmd="pip", verbose=False):
     outdated_command = " ".join((pip_cmd,"list --outdated --format json"))
     stdout, stderr = run_command(outdated_command)
     
-    if verbose and stdout or stderr:
-        print(stdout, stderr)
+    if stderr:
+        print("Error:", stderr)
+    
+    if verbose and stdout and stdout!='[]\n':
+        print(stdout)
 
-## AHJ json
     pkgs = json.loads(stdout)
     return [p['name'] for p in pkgs]
-
-## AHJ bytestrings needed for python3 (stdout?)
-#     return [p.split(b' ')[0] for p in stdout.split(b'\n') if p != b""]
-
+    
 
 def main():
     """Upgrade outdated python packages."""
@@ -102,11 +100,11 @@ def main():
 
     
     packages = collect_packages(pip_cmd=pip_cmd, verbose=args.verbose)
-    if args.verbose:
+    if args.verbose and packages:
         print("Collected: ", packages)
     if not args.serial:
         if args.verbose>1: 
-            print("parallel")
+            print("Parallel execution")
         pool = Pool(cpu_count())
         pool.map(functools.partial(upgrade_package, 
                                    pip_cmd=pip_cmd, dry_run=args.dry_run, verbose=args.verbose), 
@@ -115,7 +113,7 @@ def main():
         pool.join()
     else:
         if args.verbose>1: 
-            print("serial")
+            print("Serial execution")
 
         all_packages = " ".join(packages)
         upgrade_package(all_packages, pip_cmd=pip_cmd, dry_run=args.dry_run, verbose=args.verbose)
