@@ -28,7 +28,7 @@ import json
 import argparse
 import functools
 
-__version__ = "0.9"
+__version__ = "0.91"
 
 def run_command(command):
     """
@@ -57,9 +57,9 @@ def upgrade_package(package, pip_cmd="pip", verbose=False):
     stdout, stderr = run_command(upgrade_command)
     if stderr:
         print("Error:", stderr)
-        
+
     print(stdout)
-            
+
 
 def collect_packages(pip_cmd="pip", verbose=False):
     """
@@ -70,24 +70,24 @@ def collect_packages(pip_cmd="pip", verbose=False):
 
     outdated_command = " ".join((pip_cmd,"list --outdated --format json"))
     stdout, stderr = run_command(outdated_command)
-    
+
     if stderr:
         print("Error:", stderr)
-    
+
     if verbose and stdout and stdout!='[]\n':
         print(stdout)
 
     pkgs = json.loads(stdout)
-    
+
     return [p['name'] for p in pkgs]
-    
+
 
 def main():
     """ Upgrade outdated python packages. """
-    
+
     ## AHJ: all argparse stuff new
     descr = 'Upgrade outdated python packages with pip.'
-    
+
     parser = argparse.ArgumentParser(description=descr)
     group=parser.add_mutually_exclusive_group()
     group.add_argument("-3", dest="pip_cmd", action="store_const", const="pip3", default="pip", help="use pip3")
@@ -96,18 +96,18 @@ def main():
     parser.add_argument("--verbose", "-v", action="count", default=0, help="may be specified multiple times")
     parser.add_argument("--dry_run", "-n", action="store_true", help="get list, but don't upgrade")
     parser.add_argument("--serial", "-s", action="store_true", help="upgrade in serial rather than parallel")
-    parser.add_argument('--version', action='version', 
+    parser.add_argument('--version', action='version',
                         version='%(prog)s '+__version__)
 
     args = parser.parse_args()
 
     pip_cmd = args.pip_cmd
-        
+
     if args.verbose>1:
         print(args)
         print("pip_cmd=%s" % pip_cmd)
 
-    
+
     packages = collect_packages(pip_cmd=pip_cmd, verbose=args.verbose)
     if args.verbose:
         if packages:
@@ -115,22 +115,21 @@ def main():
         else:
             print("No outdated packages.")
             return
-            
+
     if args.dry_run:
         return
-        
+
     if not args.serial:
-        if args.verbose>1: 
+        if args.verbose>1:
             print("Parallel execution")
         pool = Pool(cpu_count())
-        pool.map(functools.partial(upgrade_package, pip_cmd=pip_cmd, verbose=args.verbose), 
+        pool.map(functools.partial(upgrade_package, pip_cmd=pip_cmd, verbose=args.verbose),
                  packages)
         pool.close()
         pool.join()
     else:
-        if args.verbose>1: 
+        if args.verbose>1:
             print("Serial execution")
 
         all_packages = " ".join(packages)
         upgrade_package(all_packages, pip_cmd=pip_cmd, verbose=args.verbose)
-
