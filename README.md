@@ -22,7 +22,14 @@ optional arguments:
   --version          show program's version number and exit
 ```
 
+### TODO
+
+* does it work with environment variables?
+* need better error handling?
+* source works with python3?
+
 ### Sources
 
 * based on https://gist.github.com/serafeimgr/b4ca5d0de63950cc5349d4802d22f3f0
 * project structure based on https://gehrcke.de/2014/02/distributing-a-python-command-line-application/
+
