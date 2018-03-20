@@ -2,6 +2,8 @@
 """
 This script upgrades all outdated python packages.
 """
+
+
 ## based on https://gist.github.com/serafeimgr/b4ca5d0de63950cc5349d4802d22f3f0
 ## __author__ = "serafeimgr"
 ## modified by AHJ to allow different pip executables (pip2, pip3, etc)
@@ -81,16 +83,18 @@ def main():
     
     parser = argparse.ArgumentParser(description=descr)
     group=parser.add_mutually_exclusive_group()
-    group.add_argument("-3", dest="pip_cmd", action="store_const", const="pip3", help="use pip3")
-    group.add_argument("-2", dest="pip_cmd", action="store_const", const="pip2", help="use pip2")
-    group.add_argument("--pip_cmd", action="store", default="pip", help="use PIP_CMD")
-    parser.add_argument("--verbose", "-v", action="count", default=0)
+    group.add_argument("-3", dest="pip_cmd", action="store_const", const="pip3", default="pip", help="use pip3")
+    group.add_argument("-2", dest="pip_cmd", action="store_const", const="pip2", default="pip", help="use pip2")
+    group.add_argument("--pip_cmd", action="store", default="pip", help="use PIP_CMD (default pip)")
+    parser.add_argument("--verbose", "-v", action="count", default=0, help="may be specified multiple times")
     parser.add_argument("--dry_run", "-n", action="store_true", help="get list, but don't upgrade")
     parser.add_argument("--serial", "-s", action="store_true", help="upgrade in serial rather than parallel")
-    
+    parser.add_argument('--version', action='version', 
+                        version='%(prog)s '+__version__)
+
     args = parser.parse_args()
 
-    pip_cmd = args.pip_cmd if args.pip_cmd else "pip"
+    pip_cmd = args.pip_cmd
         
     if args.verbose>1:
         print(args)
@@ -104,7 +108,9 @@ def main():
         if args.verbose: 
             print("parallel")
         pool = Pool(cpu_count())
-        pool.map(functools.partial(upgrade_package, pip_cmd=pip_cmd, dry_run=args.dry_run, verbose=args.verbose), packages)
+        pool.map(functools.partial(upgrade_package, 
+                                   pip_cmd=pip_cmd, dry_run=args.dry_run, verbose=args.verbose), 
+                 packages)
         pool.close()
         pool.join()
     else:

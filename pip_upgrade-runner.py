@@ -4,7 +4,7 @@
  
 """Convenience wrapper for running pushover directly from source tree.""" 
  
-from pip_upgrade.pip_upgrade import main
+from pip_upgrade_outdated.upgrade_pip_packages import main
 
 if __name__ == '__main__':
     main()

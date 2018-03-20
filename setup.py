@@ -24,6 +24,6 @@ setup(name='pip_upgrade_outdated',
       packages=['pip_upgrade_outdated'],
       ## zip_safe=False,   ### probably true?
       entry_points = {
-        'console_scripts': ['pip_upgrade_outdated=pip_upgrade_outdated.pip_upgrade:main'],
+        'console_scripts': ['pip_upgrade_outdated=pip_upgrade_outdated.upgrade_pip_packages:main'],
     }
 )
