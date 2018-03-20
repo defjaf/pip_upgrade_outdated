@@ -5,8 +5,8 @@ import re
 from codecs import open
 from os import path
 
-
-
+### https://packaging.python.org/en/latest/distributing.html
+### https://github.com/pypa/sampleproject
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
