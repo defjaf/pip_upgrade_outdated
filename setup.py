@@ -4,15 +4,6 @@ from setuptools import setup
 import re
 from io import open
 
-### shouldn't be necessary once full PEP 566 pypi metadata allowed
-# try:
-#     import pypandoc
-#     long_description = pypandoc.convert('README.md', 'rst')
-# except ImportError:
-#     long_description = open('README.md').read()
-
-long_description = open('README.md').read()
-
 ## from https://gehrcke.de/2014/02/distributing-a-python-command-line-application/
 version = re.search(
     '^__version__\s*=\s*"(.*)"',
@@ -20,8 +11,8 @@ version = re.search(
     re.M
     ).group(1)
 
-with open("README.md", "rb") as f:
-    long_descr = f.read().decode("utf-8")
+with open("README.md") as f:
+    long_description = f.read().decode("utf-8")
 
 setup(name='pip_upgrade_outdated',
       version=version,
