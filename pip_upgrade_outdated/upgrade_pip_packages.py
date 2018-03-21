@@ -56,9 +56,9 @@ def upgrade_package(package, pip_cmd="pip", verbose=False):
 
     stdout, stderr = run_command(upgrade_command)
     if stderr:
-        print("Error:", stderr)
+        print("Error:", stderr.decode())
 
-    print(stdout)
+    print(stdout.decode())
 
 
 def collect_packages(pip_cmd="pip", verbose=False):
@@ -72,10 +72,10 @@ def collect_packages(pip_cmd="pip", verbose=False):
     stdout, stderr = run_command(outdated_command)
 
     if stderr:
-        print("Error:", stderr)
+        print("Error:", stderr.decode())
 
     if verbose and stdout and stdout!=b'[]\n':
-        print(stdout)
+        print(stdout.decode())
 
     pkgs = json.loads(stdout)
 
