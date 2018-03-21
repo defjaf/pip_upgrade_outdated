@@ -33,6 +33,7 @@ setup(name='pip_upgrade_outdated',
       author_email='a.h.jaffe@gmail.com',
       license='MIT', ### see https://choosealicense.com/licenses/mit/#
       packages=['pip_upgrade_outdated'],
+      install_requires=['pip'],
       classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
