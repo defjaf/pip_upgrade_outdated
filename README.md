@@ -7,8 +7,9 @@ Allow specifying which version of `pip` to run, and parallel or serial execution
 ### Command line usage
 
 ```
-usage: pip_upgrade_outdated [-h] [-3 | -2 | --pip_cmd PIP_CMD] [--verbose]
-                            [--dry_run] [--serial] [--version]
+usage: pip_upgrade_outdated [-h] [-3 | -2 | --pip_cmd PIP_CMD]
+                            [--serial | --parallel] [--dry_run] [--verbose]
+                            [--version]
 
 Upgrade outdated python packages with pip.
 
@@ -17,16 +18,17 @@ optional arguments:
   -3                 use pip3
   -2                 use pip2
   --pip_cmd PIP_CMD  use PIP_CMD (default pip)
-  --verbose, -v      may be specified multiple times
+  --serial, -s       upgrade in serial (default)
+  --parallel, -p     upgrade in parallel
   --dry_run, -n      get list, but don't upgrade
-  --serial, -s       upgrade in serial rather than parallel
+  --verbose, -v      may be specified multiple times
   --version          show program's version number and exit
 ```
 
 ### TODO
 
-* does it work with environment variables?
-* need better error handling?
+* Does it work with environment variables? (e.g., for CC, CXX)
+* Need better error handling?
 * Should the script explicitly return a value to the shell?
 
 ### Sources
