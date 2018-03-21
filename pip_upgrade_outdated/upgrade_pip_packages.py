@@ -97,9 +97,14 @@ def main():
     group.add_argument("-3", dest="pip_cmd", action="store_const", const="pip3", default="pip", help="use pip3")
     group.add_argument("-2", dest="pip_cmd", action="store_const", const="pip2", default="pip", help="use pip2")
     group.add_argument("--pip_cmd", action="store", default="pip", help="use PIP_CMD (default pip)")
-    parser.add_argument("--verbose", "-v", action="count", default=0, help="may be specified multiple times")
+
+    group=parser.add_mutually_exclusive_group()
+    group.add_argument("--serial", "-s", action="store_true", help="upgrade in serial")
+    group.add_argument("--parallel", "-p", dest="serial", action="store_false", help="upgrade in parallel (default)")
+
     parser.add_argument("--dry_run", "-n", action="store_true", help="get list, but don't upgrade")
-    parser.add_argument("--serial", "-s", action="store_true", help="upgrade in serial rather than parallel")
+
+    parser.add_argument("--verbose", "-v", action="count", default=0, help="may be specified multiple times")
     parser.add_argument('--version', action='version',
                         version='%(prog)s '+__version__)
 
