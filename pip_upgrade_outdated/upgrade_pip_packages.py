@@ -99,8 +99,8 @@ def main():
     group.add_argument("--pip_cmd", action="store", default="pip", help="use PIP_CMD (default pip)")
 
     group=parser.add_mutually_exclusive_group()
-    group.add_argument("--serial", "-s", action="store_true", help="upgrade in serial")
-    group.add_argument("--parallel", "-p", dest="serial", action="store_false", help="upgrade in parallel (default)")
+    group.add_argument("--serial", "-s", action="store_true", default=True, help="upgrade in serial (default)")
+    group.add_argument("--parallel", "-p", dest="serial", action="store_false", default=True, help="upgrade in parallel")
 
     parser.add_argument("--dry_run", "-n", action="store_true", help="get list, but don't upgrade")
 
