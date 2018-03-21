@@ -123,9 +123,8 @@ def main():
             print("Outdated packages: ", packages)
         else:
             print("No outdated packages.")
-            return
 
-    if args.dry_run:
+    if not packages or args.dry_run:
         return
 
     if not args.serial:
