@@ -27,7 +27,6 @@ optional arguments:
 
 * does it work with environment variables?
 * need better error handling?
-* have it run with `--format columns` when using `--dry_run` and `--verbose`?
 * Should the script explicitly return a value to the shell?
 
 ### Sources

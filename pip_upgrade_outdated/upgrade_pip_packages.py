@@ -79,8 +79,9 @@ def collect_packages(pip_cmd="pip", verbose=False):
 
     pkgs = json.loads(stdout)
 
+    ### only if verbose?
     for p in pkgs:
-        print("{}: {} ({})".format(p['name'], p['latest_version'],  p['latest_filetype']))
+        print("{}: {} ({})".format(p['name'], p['latest_version'], p['latest_filetype']))
 
     return [p['name'] for p in pkgs]
 
