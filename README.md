@@ -27,7 +27,6 @@ optional arguments:
 
 ### TODO
 
-* Does it work with environment variables? (e.g., for CC, CXX)
 * Need better error handling?
 * Should the script explicitly return a value to the shell?
 
