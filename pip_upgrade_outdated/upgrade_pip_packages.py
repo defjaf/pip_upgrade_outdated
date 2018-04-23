@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 This script upgrades all outdated python packages.
 """
@@ -79,7 +81,7 @@ def collect_packages(pip_cmd="pip", verbose=False):
 
     pkgs = json.loads(stdout.decode())
 
-    ### only if verbose?
+    ### only if verbose?
     for p in pkgs:
         print("{}: {} ({})".format(p['name'], p['latest_version'], p['latest_filetype']))
 
