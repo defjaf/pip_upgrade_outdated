@@ -77,7 +77,7 @@ def collect_packages(pip_cmd="pip", verbose=False):
     if verbose and stdout and stdout!=b'[]\n':
         print(stdout.decode())
 
-    pkgs = json.loads(stdout)
+    pkgs = json.loads(stdout.decode())
 
     ### only if verbose?
     for p in pkgs:
