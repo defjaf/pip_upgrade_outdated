@@ -30,7 +30,7 @@ import json
 import argparse
 import functools
 
-__version__ = "1.1b1"
+__version__ = "1.1"
 
 def run_command(command):
     """
@@ -79,6 +79,7 @@ def collect_packages(pip_cmd="pip", verbose=False):
     if verbose and stdout and stdout!=b'[]\n':
         print(stdout.decode())
 
+    ### decode needed for python 3.5?
     pkgs = json.loads(stdout.decode())
 
     ### only if verbose?
