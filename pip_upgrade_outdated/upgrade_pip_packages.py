@@ -111,7 +111,7 @@ def main():
     parser.add_argument('--version', action='version',
                         version='%(prog)s '+__version__)
                         
-    parser.add_argument('--exclude', '-x', action='append')
+    parser.add_argument('--exclude', '-x', action='append', metavar='PKG', help='exclude PKG; may be specified multiple times')
 
     args = parser.parse_args()
 
