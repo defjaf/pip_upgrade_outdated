@@ -110,6 +110,8 @@ def main():
     parser.add_argument("--verbose", "-v", action="count", default=0, help="may be specified multiple times")
     parser.add_argument('--version', action='version',
                         version='%(prog)s '+__version__)
+                        
+    parser.add_argument('--exclude', '-x', action='append')
 
     args = parser.parse_args()
 
@@ -126,7 +128,16 @@ def main():
             print("Outdated packages: ", packages)
         else:
             print("No outdated packages.")
-
+            
+    if args.exclude:
+        excluded = []
+        for ex in args.exclude:
+            if ex in packages:
+                packages.remove(ex)
+                excluded.append(ex)
+        if args.verbose:
+            print("Excluded: ", excluded)
+            
     if not packages or args.dry_run:
         return
 
