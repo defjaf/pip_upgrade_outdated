@@ -128,7 +128,7 @@ def main():
             print("Outdated packages: ", packages)
         else:
             print("No outdated packages.")
-            
+
     if args.exclude:
         excluded = []
         for ex in args.exclude:
@@ -137,7 +137,7 @@ def main():
                 excluded.append(ex)
         if args.verbose:
             print("Excluded: ", excluded)
-            
+
     if not packages or args.dry_run:
         return
 
@@ -153,5 +153,6 @@ def main():
         if args.verbose > 1:
             print("Serial execution")
 
-        all_packages = " ".join(packages)
-        upgrade_package(all_packages, pip_cmd=pip_cmd, verbose=args.verbose)
+        # Upgrade each package as a separate command in case one package fails to upgrade, others still are upgraded
+        for package in packages:
+            upgrade_package(package, pip_cmd=pip_cmd, verbose=args.verbose)
