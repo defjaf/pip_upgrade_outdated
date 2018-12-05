@@ -51,7 +51,7 @@ def upgrade_package(package, pip_cmd="pip", pip_args="", verbose=False, dry_run=
 
     @param: package or space-joined list of packages
     """
-    upgrade_command = " ".join((pip_cmd,"install --upgrade {}".format(package)))
+    upgrade_command = " ".join((pip_cmd,"install {} --upgrade {}".format(" ".join(pip_args), package)))
 
     if verbose:
         print("Upgrade command: ", upgrade_command)
