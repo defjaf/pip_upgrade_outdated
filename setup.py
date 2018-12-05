@@ -7,12 +7,12 @@ from io import open
 ## from https://gehrcke.de/2014/02/distributing-a-python-command-line-application/
 version = re.search(
     '^__version__\s*=\s*"(.*)"',
-    open('pip_upgrade_outdated/upgrade_pip_packages.py').read(),
+    open('pip_upgrade_outdated/upgrade_pip_packages.py', 'r').read(),
     re.M
     ).group(1)
 
-with open("README.md") as f:
-    long_description = f.read()   #.decode("utf-8")
+with open('README.md', 'r') as f:
+    long_description = f.read()   # .decode("utf-8")
 
 setup(name='pip_upgrade_outdated',
       version=version,
