@@ -97,7 +97,7 @@ def main():
     """ Upgrade outdated python packages. """
 
     ## AHJ: all argparse stuff new
-    descr = 'Upgrade outdated python packages with pip.'
+    descr = 'Upgrade outdated python packages with pip. Any unknown arguments will be passed to pip.'
 
     parser = argparse.ArgumentParser(description=descr)
     group=parser.add_mutually_exclusive_group()
