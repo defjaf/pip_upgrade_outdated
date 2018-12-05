@@ -32,6 +32,7 @@ import functools
 
 __version__ = "1.2"
 
+
 def run_command(command):
     """
     Executes a command.
@@ -51,7 +52,7 @@ def upgrade_package(package, pip_cmd="pip", verbose=False):
 
     @param: package or space-joined list of packages
     """
-    upgrade_command = " ".join((pip_cmd,"install --upgrade {}".format(package)))
+    upgrade_command = " ".join((pip_cmd, "install --upgrade {}".format(package)))
 
     if verbose and upgrade_command:
         print("Upgrade command: ", upgrade_command)
@@ -70,13 +71,13 @@ def collect_packages(pip_cmd="pip", verbose=False):
     @returns : list of packages
     """
 
-    outdated_command = " ".join((pip_cmd,"list --outdated --format json"))
+    outdated_command = " ".join((pip_cmd, "list --outdated --format json"))
     stdout, stderr = run_command(outdated_command)
 
     if stderr:
         print("Error:", stderr.decode())
 
-    if verbose and stdout and stdout!=b'[]\n':
+    if verbose and stdout and stdout != b'[]\n':
         print(stdout.decode())
 
     ### decode needed for python 3.5?
@@ -96,12 +97,12 @@ def main():
     descr = 'Upgrade outdated python packages with pip.'
 
     parser = argparse.ArgumentParser(description=descr)
-    group=parser.add_mutually_exclusive_group()
+    group = parser.add_mutually_exclusive_group()
     group.add_argument("-3", dest="pip_cmd", action="store_const", const="pip3", default="pip", help="use pip3")
     group.add_argument("-2", dest="pip_cmd", action="store_const", const="pip2", default="pip", help="use pip2")
     group.add_argument("--pip_cmd", action="store", default="pip", help="use PIP_CMD (default pip)")
 
-    group=parser.add_mutually_exclusive_group()
+    group = parser.add_mutually_exclusive_group()
     group.add_argument("--serial", "-s", action="store_true", default=True, help="upgrade in serial (default)")
     group.add_argument("--parallel", "-p", dest="serial", action="store_false", help="upgrade in parallel")
 
@@ -117,10 +118,9 @@ def main():
 
     pip_cmd = args.pip_cmd
 
-    if args.verbose>1:
+    if args.verbose > 1:
         print(args)
         print("pip_cmd=%s" % pip_cmd)
-
 
     packages = collect_packages(pip_cmd=pip_cmd, verbose=args.verbose)
     if args.verbose:
@@ -142,7 +142,7 @@ def main():
         return
 
     if not args.serial:
-        if args.verbose>1:
+        if args.verbose > 1:
             print("Parallel execution")
         pool = Pool(cpu_count())
         pool.map(functools.partial(upgrade_package, pip_cmd=pip_cmd, verbose=args.verbose),
@@ -150,7 +150,7 @@ def main():
         pool.close()
         pool.join()
     else:
-        if args.verbose>1:
+        if args.verbose > 1:
             print("Serial execution")
 
         all_packages = " ".join(packages)
