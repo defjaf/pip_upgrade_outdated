@@ -45,7 +45,7 @@ def run_command(command):
     return stdout, stderror
 
 
-def upgrade_package(package, pip_cmd="pip", verbose=False):
+def upgrade_package(package, pip_cmd="pip", pip_args="", verbose=False, dry_run=False):
     """
     Upgrade a package.
 
@@ -53,8 +53,12 @@ def upgrade_package(package, pip_cmd="pip", verbose=False):
     """
     upgrade_command = " ".join((pip_cmd,"install --upgrade {}".format(package)))
 
-    if verbose and upgrade_command:
+    if verbose:
         print("Upgrade command: ", upgrade_command)
+
+    # Skip actually running the command on a dry run
+    if dry_run:
+        return
 
     stdout, stderr = run_command(upgrade_command)
     if stderr:
@@ -113,7 +117,7 @@ def main():
                         
     parser.add_argument('--exclude', '-x', action='append', metavar='PKG', help='exclude PKG; may be specified multiple times')
 
-    args = parser.parse_args()
+    args, pip_args = parser.parse_known_args()
 
     pip_cmd = args.pip_cmd
 
@@ -138,14 +142,14 @@ def main():
         if args.verbose:
             print("Excluded: ", excluded)
             
-    if not packages or args.dry_run:
+    if not packages:
         return
 
     if not args.serial:
         if args.verbose>1:
             print("Parallel execution")
         pool = Pool(cpu_count())
-        pool.map(functools.partial(upgrade_package, pip_cmd=pip_cmd, verbose=args.verbose),
+        pool.map(functools.partial(upgrade_package, pip_cmd=pip_cmd, pip_args=pip_args, verbose=args.verbose, dry_run=args.dry_run),
                  packages)
         pool.close()
         pool.join()
@@ -154,4 +158,4 @@ def main():
             print("Serial execution")
 
         all_packages = " ".join(packages)
-        upgrade_package(all_packages, pip_cmd=pip_cmd, verbose=args.verbose)
+        upgrade_package(all_packages, pip_cmd=pip_cmd, pip_args=pip_args, verbose=args.verbose, dry_run=args.dry_run)

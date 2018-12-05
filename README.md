@@ -32,7 +32,6 @@ optional arguments:
 
 * Need better error handling?
 * Should the script explicitly return a value to the shell?
-* pass command-line options to `pip` (e.g., ` --upgrade-strategy`)
 * allow patterns in exclude option
 
 ### Sources
