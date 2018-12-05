@@ -12,7 +12,7 @@ version = re.search(
     ).group(1)
 
 with open('README.md', 'r') as f:
-    long_description = f.read()   # .decode("utf-8")
+    long_description = f.read()   #.decode("utf-8")
 
 setup(name='pip_upgrade_outdated',
       version=version,
