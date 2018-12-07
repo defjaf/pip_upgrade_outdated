@@ -8,8 +8,9 @@ Allow specifying which version of `pip` to run, and parallel or serial execution
 
 ```
 usage: pip_upgrade_outdated [-h] [-3 | -2 | --pip_cmd PIP_CMD]
-                            [--serial | --parallel] [--dry_run] [--verbose]
-                            [--version] [--exclude PKG]
+                            [--serial | --parallel]
+                            [--sequential_run | --batch_run] [--dry_run]
+                            [--verbose] [--version] [--exclude PKG]
 
 Upgrade outdated python packages with pip.
 
@@ -20,12 +21,14 @@ optional arguments:
   --pip_cmd PIP_CMD     use PIP_CMD (default pip)
   --serial, -s          upgrade in serial (default)
   --parallel, -p        upgrade in parallel
+  --sequential_run, -q  run separate pip upgrade commands sequentially (serial
+                        only) (default)
+  --batch_run, -b       run one pip upgrade command (serial only
   --dry_run, -n         get list, but don't upgrade
   --verbose, -v         may be specified multiple times
   --version             show program's version number and exit
   --exclude PKG, -x PKG
                         exclude PKG; may be specified multiple times
-
 ```
 
 ### TODO

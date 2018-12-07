@@ -106,6 +106,12 @@ def main():
     group.add_argument("--serial", "-s", action="store_true", default=True, help="upgrade in serial (default)")
     group.add_argument("--parallel", "-p", dest="serial", action="store_false", help="upgrade in parallel")
 
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--sequential_run", "-q", action="store_true", default=True, help="run separate pip upgrade "
+                       "commands sequentially (serial only) (default)")
+    group.add_argument("--batch_run", "-b", dest="sequential_run", action="store_false", help="run one pip upgrade "
+                       "command (serial only")
+
     parser.add_argument("--dry_run", "-n", action="store_true", help="get list, but don't upgrade")
 
     parser.add_argument("--verbose", "-v", action="count", default=0, help="may be specified multiple times")
@@ -153,6 +159,10 @@ def main():
         if args.verbose > 1:
             print("Serial execution")
 
-        # Upgrade each package as a separate command in case one package fails to upgrade, others still are upgraded
-        for package in packages:
-            upgrade_package(package, pip_cmd=pip_cmd, verbose=args.verbose)
+        if args.sequential_run:
+            # Upgrade each package as a separate command in case one package fails to upgrade, others still are upgraded
+            for package in packages:
+                upgrade_package(package, pip_cmd=pip_cmd, verbose=args.verbose)
+        else:
+            all_packages = " ".join(packages)
+            upgrade_package(all_packages, pip_cmd=pip_cmd, verbose=args.verbose)
