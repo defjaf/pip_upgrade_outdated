@@ -30,7 +30,7 @@ import json
 import argparse
 import functools
 
-__version__ = "1.3"
+__version__ = "1.4"
 
 def run_command(command):
     """
@@ -45,16 +45,21 @@ def run_command(command):
     return stdout, stderror
 
 
-def upgrade_package(package, pip_cmd="pip", user="", verbose=False):
+def upgrade_package(package, pip_cmd="pip", pip_args="", verbose=False, dry_run=False):
     """
     Upgrade a package.
 
     @param: package or space-joined list of packages
     """
-    upgrade_command = " ".join((pip_cmd,"install {} --upgrade {}".format(user, package)))
 
-    if verbose and upgrade_command:
+    upgrade_command = " ".join((pip_cmd,"install {} --upgrade {}".format(" ".join(pip_args), package)))
+
+    if verbose:
         print("Upgrade command: ", upgrade_command)
+
+    # Skip actually running the command on a dry run
+    if dry_run:
+        return
 
     stdout, stderr = run_command(upgrade_command)
     if stderr:
@@ -93,7 +98,7 @@ def main():
     """ Upgrade outdated python packages. """
 
     ## AHJ: all argparse stuff new
-    descr = 'Upgrade outdated python packages with pip.'
+    descr = 'Upgrade outdated python packages with pip. Any unknown arguments will be passed to pip.'
 
     parser = argparse.ArgumentParser(description=descr)
 
@@ -121,9 +126,10 @@ def main():
     parser.add_argument('--exclude', '-x', action='append', metavar='PKG', help='exclude PKG; may be specified multiple times')
 
     args, pip_args = parser.parse_known_args()
-    
+
     pip_cmd = args.pip_cmd
     
+    ## special case --user flag so it appears in the help
     if args.user: 
         pip_args.append(args.user)
 
@@ -149,14 +155,14 @@ def main():
         if args.verbose:
             print("Excluded: ", excluded)
             
-    if not packages or args.dry_run:
+    if not packages:
         return
 
     if not args.serial:
         if args.verbose>1:
             print("Parallel execution")
         pool = Pool(cpu_count())
-        pool.map(functools.partial(upgrade_package, pip_cmd=pip_cmd, user=args.user, verbose=args.verbose),
+        pool.map(functools.partial(upgrade_package, pip_cmd=pip_cmd, pip_args=pip_args, verbose=args.verbose, dry_run=args.dry_run),
                  packages)
         pool.close()
         pool.join()
@@ -165,4 +171,4 @@ def main():
             print("Serial execution")
 
         all_packages = " ".join(packages)
-        upgrade_package(all_packages, pip_cmd=pip_cmd, user=args.user, verbose=args.verbose)
+        upgrade_package(all_packages, pip_cmd=pip_cmd, pip_args=pip_args, verbose=args.verbose, dry_run=args.dry_run)

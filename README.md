@@ -11,7 +11,7 @@ usage: pip_upgrade_outdated [-h] [-3 | -2 | --pip_cmd PIP_CMD]
                             [--serial | --parallel] [--dry_run] [--verbose]
                             [--version] [--exclude PKG]
 
-Upgrade outdated python packages with pip.
+Upgrade outdated python packages with pip. Any unknown arguments will be passed to pip.
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -33,7 +33,6 @@ optional arguments:
 
 * Need better error handling?
 * Should the script explicitly return a value to the shell?
-* pass command-line options to `pip` (e.g., ` --upgrade-strategy`)
 * allow patterns in exclude option
 
 ### Sources
