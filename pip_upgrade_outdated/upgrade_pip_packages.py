@@ -45,13 +45,13 @@ def run_command(command):
     return stdout, stderror
 
 
-def upgrade_package(package, pip_cmd="pip", verbose=False):
+def upgrade_package(package, pip_cmd="pip", user="", verbose=False):
     """
     Upgrade a package.
 
     @param: package or space-joined list of packages
     """
-    upgrade_command = " ".join((pip_cmd,"install --upgrade {}".format(package)))
+    upgrade_command = " ".join((pip_cmd,"install {} --upgrade {}".format(user, package)))
 
     if verbose and upgrade_command:
         print("Upgrade command: ", upgrade_command)
@@ -96,14 +96,21 @@ def main():
     descr = 'Upgrade outdated python packages with pip.'
 
     parser = argparse.ArgumentParser(description=descr)
+
+
     group=parser.add_mutually_exclusive_group()
     group.add_argument("-3", dest="pip_cmd", action="store_const", const="pip3", default="pip", help="use pip3")
     group.add_argument("-2", dest="pip_cmd", action="store_const", const="pip2", default="pip", help="use pip2")
     group.add_argument("--pip_cmd", action="store", default="pip", help="use PIP_CMD (default pip)")
 
+
+
     group=parser.add_mutually_exclusive_group()
     group.add_argument("--serial", "-s", action="store_true", default=True, help="upgrade in serial (default)")
     group.add_argument("--parallel", "-p", dest="serial", action="store_false", help="upgrade in parallel")
+
+    parser.add_argument("--user", "-u", dest="user", action="store_const", const="--user", default="", 
+                       help="Adds the --user flag when installing the packages")
 
     parser.add_argument("--dry_run", "-n", action="store_true", help="get list, but don't upgrade")
 
@@ -145,7 +152,7 @@ def main():
         if args.verbose>1:
             print("Parallel execution")
         pool = Pool(cpu_count())
-        pool.map(functools.partial(upgrade_package, pip_cmd=pip_cmd, verbose=args.verbose),
+        pool.map(functools.partial(upgrade_package, pip_cmd=pip_cmd, user=args.user, verbose=args.verbose),
                  packages)
         pool.close()
         pool.join()
@@ -154,4 +161,4 @@ def main():
             print("Serial execution")
 
         all_packages = " ".join(packages)
-        upgrade_package(all_packages, pip_cmd=pip_cmd, verbose=args.verbose)
+        upgrade_package(all_packages, pip_cmd=pip_cmd, user=args.user, verbose=args.verbose)
