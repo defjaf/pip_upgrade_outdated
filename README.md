@@ -20,6 +20,7 @@ optional arguments:
   --pip_cmd PIP_CMD     use PIP_CMD (default pip)
   --serial, -s          upgrade in serial (default)
   --parallel, -p        upgrade in parallel
+  --user, -u            Adds the --user flag when installing the packages
   --dry_run, -n         get list, but don't upgrade
   --verbose, -v         may be specified multiple times
   --version             show program's version number and exit
