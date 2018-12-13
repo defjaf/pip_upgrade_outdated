@@ -120,14 +120,18 @@ def main():
                         
     parser.add_argument('--exclude', '-x', action='append', metavar='PKG', help='exclude PKG; may be specified multiple times')
 
-    args = parser.parse_args()
-
+    args, pip_args = parser.parse_known_args()
+    
     pip_cmd = args.pip_cmd
+    
+    if args.user: 
+        pip_args.append(args.user)
 
     if args.verbose>1:
         print(args)
         print("pip_cmd=%s" % pip_cmd)
-
+        if pip_args:
+            print("pip_args:", pip_args)
 
     packages = collect_packages(pip_cmd=pip_cmd, verbose=args.verbose)
     if args.verbose:
