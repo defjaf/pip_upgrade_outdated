@@ -13,8 +13,7 @@ usage: pip_upgrade_outdated [-h] [-3 | -2 | --pip_cmd PIP_CMD]
                             [--dry_run] [--verbose] [--version]
                             [--exclude PKG]
 
-Upgrade outdated python packages with pip. Any unknown arguments will be
-passed to pip.
+Upgrade outdated python packages with pip. Any unknown arguments will be passed to pip.
 
 optional arguments:
   -h, --help            show this help message and exit
