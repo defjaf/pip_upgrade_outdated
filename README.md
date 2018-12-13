@@ -12,7 +12,7 @@ usage: pip_upgrade_outdated [-h] [-3 | -2 | --pip_cmd PIP_CMD]
                             [--sequential_run | --batch_run] [--dry_run]
                             [--verbose] [--version] [--exclude PKG]
 
-Upgrade outdated python packages with pip.
+Upgrade outdated python packages with pip. Any unknown arguments will be passed to pip.
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -23,7 +23,7 @@ optional arguments:
   --parallel, -p        upgrade in parallel
   --sequential_run, -q  run separate pip upgrade commands sequentially (serial
                         only) (default)
-  --batch_run, -b       run one pip upgrade command (serial only
+  --batch_run, -b       run one pip upgrade command (serial only)
   --dry_run, -n         get list, but don't upgrade
   --verbose, -v         may be specified multiple times
   --version             show program's version number and exit
@@ -35,7 +35,6 @@ optional arguments:
 
 * Need better error handling?
 * Should the script explicitly return a value to the shell?
-* pass command-line options to `pip` (e.g., ` --upgrade-strategy`)
 * allow patterns in exclude option
 
 ### Sources
