@@ -52,7 +52,7 @@ def upgrade_package(package, pip_cmd="pip", pip_args="", verbose=False, dry_run=
 
     @param: package or space-joined list of packages
     """
-    
+
     upgrade_command = " ".join((pip_cmd, "install {} --upgrade {}".format(" ".join(pip_args), package)))
 
     if verbose:
@@ -102,7 +102,7 @@ def main():
     descr = 'Upgrade outdated python packages with pip. Any unknown arguments will be passed to pip.'
 
     parser = argparse.ArgumentParser(description=descr)
-    
+
     group = parser.add_mutually_exclusive_group()
     group.add_argument("-3", dest="pip_cmd", action="store_const", const="pip3", default="pip", help="use pip3")
     group.add_argument("-2", dest="pip_cmd", action="store_const", const="pip2", default="pip", help="use pip2")
@@ -118,20 +118,23 @@ def main():
     group.add_argument("--batch_run", "-b", dest="sequential_run", action="store_false", help="run one pip upgrade "
                        "command (serial only")
 
+    parser.add_argument("--user", "-u", dest="user", action="store_const", const="--user", default="",
+                        help="Adds the --user flag when installing the packages")
+
     parser.add_argument("--dry_run", "-n", action="store_true", help="get list, but don't upgrade")
 
     parser.add_argument("--verbose", "-v", action="count", default=0, help="may be specified multiple times")
     parser.add_argument('--version', action='version',
-                        version='%(prog)s '+__version__)
-                        
+                        version='%(prog)s ' + __version__)
+
     parser.add_argument('--exclude', '-x', action='append', metavar='PKG', help='exclude PKG; may be specified multiple times')
 
     args, pip_args = parser.parse_known_args()
 
     pip_cmd = args.pip_cmd
-    
+
     ## special case --user flag so it appears in the help
-    if args.user: 
+    if args.user:
         pip_args.append(args.user)
 
     if args.verbose > 1:
@@ -155,7 +158,7 @@ def main():
                 excluded.append(ex)
         if args.verbose:
             print("Excluded: ", excluded)
-    
+
     if not packages:
         return
 
@@ -163,8 +166,8 @@ def main():
         if args.verbose > 1:
             print("Parallel execution")
         pool = Pool(cpu_count())
-        pool.map(functools.partial(upgrade_package, pip_cmd=pip_cmd, pip_args=pip_args, verbose=args.verbose, dry_run=args.dry_run),
-                 packages)
+        pool.map(functools.partial(upgrade_package, pip_cmd=pip_cmd, pip_args=pip_args, verbose=args.verbose,
+                 dry_run=args.dry_run), packages)
         pool.close()
         pool.join()
     else:
@@ -174,8 +177,8 @@ def main():
         if args.sequential_run:
             # Upgrade each package as a separate command in case one package fails to upgrade, others still are upgraded
             for package in packages:
-                upgrade_package(package, pip_cmd=pip_cmd, verbose=args.verbose)
+                upgrade_package(package, pip_cmd=pip_cmd, pip_args=pip_args, verbose=args.verbose, dry_run=args.dry_run)
         else:
             all_packages = " ".join(packages)
-            upgrade_package(all_packages, pip_cmd=pip_cmd, pip_args=pip_args, verbose=args.verbose)
- 
+            upgrade_package(all_packages, pip_cmd=pip_cmd, pip_args=pip_args, verbose=args.verbose,
+                            dry_run=args.dry_run)

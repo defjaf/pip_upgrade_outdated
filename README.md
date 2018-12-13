@@ -9,10 +9,12 @@ Allow specifying which version of `pip` to run, and parallel or serial execution
 ```
 usage: pip_upgrade_outdated [-h] [-3 | -2 | --pip_cmd PIP_CMD]
                             [--serial | --parallel]
-                            [--sequential_run | --batch_run] [--dry_run]
-                            [--verbose] [--version] [--exclude PKG]
+                            [--sequential_run | --batch_run] [--user]
+                            [--dry_run] [--verbose] [--version]
+                            [--exclude PKG]
 
-Upgrade outdated python packages with pip. Any unknown arguments will be passed to pip.
+Upgrade outdated python packages with pip. Any unknown arguments will be
+passed to pip.
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -23,7 +25,8 @@ optional arguments:
   --parallel, -p        upgrade in parallel
   --sequential_run, -q  run separate pip upgrade commands sequentially (serial
                         only) (default)
-  --batch_run, -b       run one pip upgrade command (serial only)
+  --batch_run, -b       run one pip upgrade command (serial only
+  --user, -u            Adds the --user flag when installing the packages
   --dry_run, -n         get list, but don't upgrade
   --verbose, -v         may be specified multiple times
   --version             show program's version number and exit
