@@ -166,16 +166,16 @@ def main():
                  dry_run=args.dry_run), packages)
         pool.close()
         pool.join()
-    else:   ### serial (batch) or sequential
-        if args.sequential:
-            if args.verbose > 1:
-                print("Sequential execution")
-            # Upgrade each package as a separate command in case one package fails to upgrade, others still are upgraded
-            for package in packages:
-                upgrade_package(package, pip_cmd=pip_cmd, pip_args=pip_args, verbose=args.verbose, dry_run=args.dry_run)
-        else:
-            if args.verbose > 1:
-                print("Serial (batch) execution")
-            all_packages = " ".join(packages)
-            upgrade_package(all_packages, pip_cmd=pip_cmd, pip_args=pip_args, verbose=args.verbose,
-                            dry_run=args.dry_run)
+    elif args.sequential:
+        ### note that order matters here since args.serial defaults to True
+        if args.verbose > 1:
+            print("Sequential execution")
+        # Upgrade each package as a separate command in case one package fails to upgrade, others still are upgraded
+        for package in packages:
+            upgrade_package(package, pip_cmd=pip_cmd, pip_args=pip_args, verbose=args.verbose, dry_run=args.dry_run)
+    elif args.serial:
+        if args.verbose > 1:
+            print("Serial (batch) execution")
+        all_packages = " ".join(packages)
+        upgrade_package(all_packages, pip_cmd=pip_cmd, pip_args=pip_args, verbose=args.verbose,
+                        dry_run=args.dry_run)
