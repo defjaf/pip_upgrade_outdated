@@ -114,12 +114,6 @@ def main():
     group.add_argument("--parallel", "-p", action="store_true", default=False, help="upgrade in parallel via individual pip ugrade commands")
     group.add_argument("--sequential", "-q", action="store_true", default=False, help="upgrade in serial via individual pip ugrade commands")
 
-#     group = parser.add_mutually_exclusive_group()
-#     group.add_argument("--sequential_run", "-q", action="store_true", default=True, help="run separate pip upgrade "
-#                        "commands sequentially (serial only) (default)")
-#     group.add_argument("--batch_run", "-b", dest="sequential_run", action="store_false", help="run one pip upgrade "
-#                        "command (serial only")
-
     parser.add_argument("--user", "-u", dest="user", action="store_const", const="--user", default="",
                         help="Adds the --user flag when installing the packages")
 
