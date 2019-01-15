@@ -20,10 +20,9 @@ optional arguments:
   -3                    use pip3
   -2                    use pip2
   --pip_cmd PIP_CMD     use PIP_CMD (default pip)
-  --serial, -s          upgrade in serial (default)
-  --parallel, -p        upgrade in parallel
-  --sequential_run, -q  run separate pip upgrade commands sequentially (serial
-                        only) (default)
+  --serial, -s          upgrade in serial via a single pip upgrade command (default)
+  --parallel, -p        upgrade in parallel via individual pip upgrade commands
+  --sequential, -q      upgrade in serial via individual pip upgrade commands
   --batch_run, -b       run one pip upgrade command (serial only
   --user, -u            Adds the --user flag when installing the packages
   --dry_run, -n         get list, but don't upgrade

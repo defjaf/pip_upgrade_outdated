@@ -16,6 +16,7 @@ This script upgrades all outdated python packages.
 
 ## do we really want to do this with multiprocessing, or just a single giant call to pip?
 ##   now can choose with a command-line argument
+##   and can also choose between single (batch) upgrade and individual (sequential) commands
 
 ## does the parsing really work given the new-style headers in the formatting?
 ##  -- no: needed to add --format legacy; could also use freeze (split with "==")
@@ -30,7 +31,7 @@ import json
 import argparse
 import functools
 
-__version__ = "1.4"
+__version__ = "1.5"
 
 
 def run_command(command):
@@ -109,14 +110,15 @@ def main():
     group.add_argument("--pip_cmd", action="store", default="pip", help="use PIP_CMD (default pip)")
 
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("--serial", "-s", action="store_true", default=True, help="upgrade in serial (default)")
-    group.add_argument("--parallel", "-p", dest="serial", action="store_false", help="upgrade in parallel")
+    group.add_argument("--serial", "-s", action="store_true", default=True, help="upgrade in serial via a single batch pip upgrade command (default)")
+    group.add_argument("--parallel", "-p", action="store_true", default=False, help="upgrade in parallel via individual pip ugrade commands")
+    group.add_argument("--sequential", "-q", action="store_true", default=False, help="upgrade in serial via individual pip ugrade commands")
 
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument("--sequential_run", "-q", action="store_true", default=True, help="run separate pip upgrade "
-                       "commands sequentially (serial only) (default)")
-    group.add_argument("--batch_run", "-b", dest="sequential_run", action="store_false", help="run one pip upgrade "
-                       "command (serial only")
+#     group = parser.add_mutually_exclusive_group()
+#     group.add_argument("--sequential_run", "-q", action="store_true", default=True, help="run separate pip upgrade "
+#                        "commands sequentially (serial only) (default)")
+#     group.add_argument("--batch_run", "-b", dest="sequential_run", action="store_false", help="run one pip upgrade "
+#                        "command (serial only")
 
     parser.add_argument("--user", "-u", dest="user", action="store_const", const="--user", default="",
                         help="Adds the --user flag when installing the packages")
@@ -162,7 +164,7 @@ def main():
     if not packages:
         return
 
-    if not args.serial:
+    if args.parallel:
         if args.verbose > 1:
             print("Parallel execution")
         pool = Pool(cpu_count())
@@ -170,15 +172,16 @@ def main():
                  dry_run=args.dry_run), packages)
         pool.close()
         pool.join()
-    else:
-        if args.verbose > 1:
-            print("Serial execution")
-
-        if args.sequential_run:
+    else:   ### serial (batch) or sequential
+        if args.sequential:
+            if args.verbose > 1:
+                print("Sequential execution")
             # Upgrade each package as a separate command in case one package fails to upgrade, others still are upgraded
             for package in packages:
                 upgrade_package(package, pip_cmd=pip_cmd, pip_args=pip_args, verbose=args.verbose, dry_run=args.dry_run)
         else:
+            if args.verbose > 1:
+                print("Serial (batch) execution")
             all_packages = " ".join(packages)
             upgrade_package(all_packages, pip_cmd=pip_cmd, pip_args=pip_args, verbose=args.verbose,
                             dry_run=args.dry_run)
