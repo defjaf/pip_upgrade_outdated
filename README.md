@@ -23,7 +23,6 @@ optional arguments:
   --serial, -s          upgrade in serial via a single pip upgrade command (default)
   --parallel, -p        upgrade in parallel via individual pip upgrade commands
   --sequential, -q      upgrade in serial via individual pip upgrade commands
-  --batch_run, -b       run one pip upgrade command (serial only
   --user, -u            Adds the --user flag when installing the packages
   --dry_run, -n         get list, but don't upgrade
   --verbose, -v         may be specified multiple times
