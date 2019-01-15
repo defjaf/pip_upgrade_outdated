@@ -126,6 +126,10 @@ def main():
     parser.add_argument('--exclude', '-x', action='append', metavar='PKG', help='exclude PKG; may be specified multiple times')
 
     args, pip_args = parser.parse_known_args()
+    
+    if args.parallel or args.sequential:
+        ## special case since is the default of the mutually exclusive group above
+        args.serial = False   
 
     pip_cmd = args.pip_cmd
 
@@ -167,7 +171,6 @@ def main():
         pool.close()
         pool.join()
     elif args.sequential:
-        ### note that order matters here since args.serial defaults to True
         if args.verbose > 1:
             print("Sequential execution")
         # Upgrade each package as a separate command in case one package fails to upgrade, others still are upgraded
