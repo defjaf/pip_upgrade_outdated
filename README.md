@@ -8,8 +8,7 @@ Allow specifying which version of `pip` to run, and parallel or serial execution
 
 ```
 usage: pip_upgrade_outdated [-h] [-3 | -2 | --pip_cmd PIP_CMD]
-                            [--serial | --parallel]
-                            [--sequential_run | --batch_run] [--user]
+                            [--serial | --parallel | --sequential] [--user]
                             [--dry_run] [--verbose] [--version]
                             [--exclude PKG]
 
