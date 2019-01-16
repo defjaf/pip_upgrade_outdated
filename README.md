@@ -35,6 +35,7 @@ optional arguments:
 * Need better error handling?
 * Should the script explicitly return a value to the shell?
 * allow patterns in exclude option
+* allow file list in exclude option
 
 ### Sources
 
